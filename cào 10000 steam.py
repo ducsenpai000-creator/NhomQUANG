@@ -11,14 +11,14 @@ def auto_bypass_verify(driver):
         print(f"   [!] Cloudflare chặn đường. Đang thử giải...")
         try:
             driver.uc_gui_handle_captcha()
-            time.sleep(6)
+            time.sleep(5)
             return True
         except: pass
     return False
 
 def scrape_steam_resume():
     file_name = "cao_10000_steam.xlsx"
-    target_count = 50    #cào 10000 dòng cho sau này 
+    target_count = 10000    #cào 10000 dòng 
     
     # --- BƯỚC 1: ĐỌC DỮ LIỆU CŨ ĐỂ CHẠY TIẾP ---
     scraped_links = []
@@ -58,7 +58,6 @@ def scrape_steam_resume():
         # --- BƯỚC 3: CÀO CHI TIẾT VÀ LƯU TỨC THÌ ---
         for i, game in enumerate(temp_list):
             try:
-                # Cứ cào được 15-20 game thì bạn nên chủ động tắt đi đổi IP
                 if i > 0 and i % 20 == 0:
                     print("\n[!] Đã cào được 20 game. Bạn nên tắt script, đổi IP rồi chạy lại để an toàn.")
                 
@@ -89,7 +88,7 @@ def scrape_steam_resume():
 
                 final_data.append(game)
                 
-                # GHI ĐÈ FILE NGAY LẬP TỨC
+                # GHI ĐÈ FILE 
                 pd.DataFrame(final_data).to_excel(file_name, index=False)
                 print(f"[{len(final_data)}] Đã lưu: {game['Tên Game']}")
 
@@ -102,3 +101,6 @@ def scrape_steam_resume():
 
 if __name__ == "__main__":
     scrape_steam_resume()
+
+# code chưa có phần cào giá game & discount
+# bị chặn vpn nên nhiều lúc phải verify thủ công 
